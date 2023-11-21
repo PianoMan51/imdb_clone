@@ -1,0 +1,118 @@
+import React from "react";
+import Stats from "./Stats";
+
+function renderStarIcons(rating) {
+  const starIcons = [];
+  const totalStars = 5;
+
+  for (let i = 1; i <= totalStars; i++) {
+    if (i <= rating) {
+      starIcons.push(<i key={i} className="fa-solid fa-star"></i>);
+    } else if (i - 0.5 === rating) {
+      starIcons.push(<i key={i} className="fa-solid fa-star-half-stroke"></i>);
+    } else {
+      starIcons.push(<i key={i} className="fa-regular fa-star"></i>);
+    }
+  }
+
+  return starIcons;
+}
+
+export default function MovieContainer({
+  movieData,
+  selectedMovie,
+  setSelectedMovie,
+}) {
+  function handleMovieReset() {
+    setSelectedMovie(null);
+  }
+
+  const handleMovieClick = (movie) => {
+    setSelectedMovie(movie);
+  };
+  return (
+    <div className="movie--container">
+      {selectedMovie ? (
+        <div className="selected-movie--container">
+          <div className="selected-top">
+            <div className="selected-movie--textContainer">
+              <h1 className="selected--title">
+                {selectedMovie.Title}
+                <span className="movie--year"> ({selectedMovie.Year})</span>
+              </h1>
+
+              <div className="movie--rating">
+                <span>{selectedMovie.imdbRating}</span>
+                <span className="movie-stars">
+                  {renderStarIcons(
+                    Math.round(selectedMovie.imdbRating * 2) / 4
+                  )}
+                </span>
+              </div>
+
+              <div className="selected--authors">
+                <p className="selected--director">
+                  Director: {selectedMovie.Director}
+                </p>
+                <p className="selected--writer">
+                  Writer: {selectedMovie.Writer}
+                </p>
+                <p className="selected--actors">
+                  Actors: {selectedMovie.Actors}
+                </p>
+              </div>
+
+              <p className="selected--plot">{selectedMovie.Plot}</p>
+            </div>
+            <div className="selected-movie--posterContainer">
+              <div className="selected--poster">
+                <img src={selectedMovie.Poster} alt={selectedMovie.Title} />
+              </div>
+            </div>
+          </div>
+          <div className="selected-bottom">
+            <Stats selectedMovie={selectedMovie} />
+          </div>
+
+          <div className="bottom-buttons">
+            <button className="reset-button" onClick={() => handleMovieReset()}>
+              Go back
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="movie--list">
+          {movieData.map((movie, index) => (
+            <div
+              key={index}
+              className="movie--item"
+              onClick={() => handleMovieClick(movie)}
+            >
+              <div className="movie--text">
+                <h2 className="movie--title">
+                  {movie.Title}
+                  <span className="movie--year"> ({movie.Year})</span>
+                </h2>
+                <span>{movie.Runtime}</span>
+
+                <div className="movie--rating">
+                  <span>{movie.imdbRating}</span>
+                  <span className="movie-stars">
+                    {renderStarIcons(Math.round(movie.imdbRating * 2) / 4)}
+                  </span>
+                </div>
+                <span>
+                  {movie.Type !== "movie" ? "Series, " : ""}
+                  {movie.Genre}
+                </span>
+              </div>
+              <div className="movie--poster">
+                <img src={movie.Poster} alt={movie.Title} />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
