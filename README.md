@@ -1,4 +1,4 @@
-#Imdb clone
+# Imdb clone
 
 This projects is created using React.js and is one of my first React projects.
 
