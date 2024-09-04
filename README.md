@@ -8,7 +8,9 @@ I really enjoyed working with React due to its structure around using 'component
 
 ![Frontpage](images/Imdb_clone.png)
 
+![Seach](images/Search.png)
+
 ![Result](images/Result.png)
 
-![Seach](images/Search.png)
+
 
